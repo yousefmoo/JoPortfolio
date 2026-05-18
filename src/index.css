@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --indigo: #6366F1;
+  --indigo-l: #818CF8;
+  --cyan: #22D3EE;
+  --purple: #A855F7;
+  --green: #10B981;
+  --amber: #F59E0B;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #07070F;
+  color: #F1F5F9;
+  font-family: 'Inter', sans-serif;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* Cursor */
+.cursor-dot {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--indigo); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .15s, height .15s, background .15s;
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1.5px solid var(--indigo-l); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width .25s, height .25s, border-color .2s;
+  opacity: .6;
+}
+body.hovering .cursor-dot { width: 14px; height: 14px; background: var(--cyan); }
+body.hovering .cursor-ring { width: 52px; height: 52px; border-color: var(--cyan); }
+
+/* Particles canvas */
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.delay-1 { transition-delay: .1s; }
+.delay-2 { transition-delay: .2s; }
+.delay-3 { transition-delay: .3s; }
+.delay-4 { transition-delay: .4s; }
+
+/* Gradient text */
+.grad-text {
+  background: linear-gradient(135deg, var(--indigo-l) 0%, var(--cyan) 50%, var(--purple) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradshift 4s linear infinite;
+}
+@keyframes gradshift {
+  0% { background-position: 0% } 100% { background-position: 200% }
+}
+
+/* Glitch */
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0;
+  background: #07070F; overflow: hidden;
+}
+.glitch::before {
+  left: 2px; text-shadow: -2px 0 var(--cyan);
+  clip-path: polygon(0 0,100% 0,100% 0%,0 0%);
+  animation: glitch1 3.5s infinite linear;
+}
+.glitch::after {
+  left: -2px; text-shadow: 2px 0 var(--purple);
+  clip-path: polygon(0 0,100% 0,100% 0%,0 0%);
+  animation: glitch2 3.5s infinite linear;
+}
+@keyframes glitch1 {
+  0%,89%{clip-path:polygon(0 0,100% 0,100% 0%,0 0%);opacity:0}
+  92%{clip-path:polygon(0 15%,100% 15%,100% 35%,0 35%);opacity:.8}
+  95%{clip-path:polygon(0 5%,100% 5%,100% 25%,0 25%);opacity:.8}
+  97%,100%{clip-path:polygon(0 0,100% 0,100% 0%,0 0%);opacity:0}
+}
+@keyframes glitch2 {
+  0%,84%{opacity:0}
+  88%{clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);opacity:.7}
+  91%{clip-path:polygon(0 70%,100% 70%,100% 90%,0 90%);opacity:.7}
+  93%,100%{opacity:0}
+}
+
+/* Skill bar */
+.skill-fill {
+  height: 100%; border-radius: 100px;
+  width: 0;
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+/* Pulse dot */
+@keyframes pulse-dot {
+  0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,.5); }
+  50% { box-shadow: 0 0 0 6px rgba(99,102,241,0); }
+}
+.pulse-dot { animation: pulse-dot 2s infinite; }
+
+/* Scroll indicator */
+@keyframes scroll-line {
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+.scroll-line { animation: scroll-line 2s ease infinite; }
+
+/* Float */
+@keyframes float {
+  0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}
+}
+.float { animation: float 5s ease-in-out infinite; }
+
+/* Project card body */
+.proj-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .5s cubic-bezier(.4,0,.2,1);
+}
+.proj-body.open { max-height: 700px; }
+
+/* Toggle button rotate */
+.toggle-btn { transition: transform .3s, background .2s, border-color .2s, color .2s; }
+.toggle-btn.open { transform: rotate(45deg); background: var(--indigo); border-color: var(--indigo); color: #fff; }
+
+@media(max-width:768px) {
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+}
